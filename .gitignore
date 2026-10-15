@@ -24,3 +24,24 @@ __pycache__/
 
 # MongoDB workflow output files
 mongo/output*.txt
+
+# Node dependencies and build artifacts
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+build/
+**/build/
+.vite/
+**/.vite/
+*.zip
+
+# Local development blueprints & project reference files (kept local, not pushed)
+IMPLEMENTATION_DETAILS.md
+IMPLEMENTATION_GUIDE.md
+BACKEND_CHANGES.md
+VIVA_QUESTIONS_AND_ANSWERS.md
+Project-Info.md
+Backend-Requirement.txt
+FrontEnd.pdf
+
