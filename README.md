@@ -1,26 +1,44 @@
-CareConnect – On-Demand Telemedicine Platform
-Assignment 2 – Software System Development (SSD CS6.302)
-Project 4: CareConnect (Hybrid Relational & Document Store Telemedicine System)
+# CareConnect – On-Demand Telemedicine Platform
+**Assignment 2 – Software System Development (SSD CS6.302)**  
+**Project 4**: CareConnect (Hybrid Relational & Document Store Telemedicine System)
 
-1. Repository & Submission Metadata
-Forked / Development Repository: https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git
-Inherited Repository: https://github.com/Mihirbuddy/ssd_project.git (Inherited Commit: 7d9ff89)
-Final Submission Commit Hash: 71ac8ec (Update to latest git rev before packaging)
-Walkthrough Demo Video (≤ 5 minutes): YouTube / Google Drive Demo Link Placeholder
-2. Team Contribution Table
-Team Member Name	Roll Number	Key Responsibilities & Contributions	Contribution %
-Neelesh Srivastava	2024XXXX	Backend API layer (api/), stored procedure integration, $geoNear parameterization, database lifecycle fixes, automated test suite (booking.test.js).	34%
-Team Member 2	2024XXXX	Frontend architecture (web/), Browse screen (large-scale pagination), Transaction screen (Workflow 1), UI design tokens.	33%
-Team Member 3	2024XXXX	Geospatial Leaflet dispatch map (Workflow 3), Window analytics & Materialized View (Workflow 2), Review analytics (Workflow 4), Wireframes & Handover note.	33%
-3. Technology Stack & Architectural Justifications
-Layer	Chosen Technology	Justification & Design Decision
-Relational Database	PostgreSQL 15+	Relational integrity for financial ledgers, transactional consistency, PL/pgSQL atomic procedures, row-level locks (SELECT FOR UPDATE), audit triggers, and materialized views.
-Document Database	MongoDB 7.0+	High-velocity geospatial coordinates (2dsphere index with TTL expiration) and polymorphic catalogs (MedicalCatalogs) + unstructured review sentiments.
-Backend API Layer	Node.js + Express	Lightweight, asynchronous non-blocking I/O. Native PostgreSQL connection pooling (pg) and official MongoDB driver (mongodb). Minimal boilerplate; lets database engines do the heavy analytical lifting.
-Frontend Web App	React 18 + Vite	Instant Hot Module Replacement (HMR), sub-5s production build, component-driven modularity. Zero bloated dependencies.
-Geospatial Mapping	Leaflet + OpenStreetMap	Open-source, zero API keys required, lightweight interactive tiles, smooth 5 km dynamic radius circle rendering and live GPS ping markers.
-Styling & Aesthetics	Vanilla CSS + Glassmorphism	Sleek healthcare dark theme (#0b1120, sky blue #0284c7, emerald #10b981), responsive layouts, zero build configuration overhead from utility frameworks.
-4. Repository Structure
+---
+
+## 1. Repository & Submission Metadata
+
+* **Forked / Development Repository**: [`https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git`](https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git)
+* **Inherited Repository**: [`https://github.com/Mihirbuddy/ssd_project.git`](https://github.com/Mihirbuddy/ssd_project.git) (Inherited Commit: `7d9ff89`)
+* **Final Submission Commit Hash**: `71ac8ec` *(Update to latest git rev before packaging)*
+* **Walkthrough Demo Video (≤ 5 minutes)**: [YouTube / Google Drive Demo Link Placeholder](https://youtu.be/placeholder)
+
+---
+
+## 2. Team Contribution Table
+
+| Team Member Name | Roll Number | Key Responsibilities & Contributions | Contribution % |
+| :--- | :--- | :--- | :--- |
+| **Neelesh Srivastava** | 2024XXXX | Backend API layer (`api/`), stored procedure integration, `$geoNear` parameterization, database lifecycle fixes, automated test suite (`booking.test.js`). | 34% |
+| **Team Member 2** | 2024XXXX | Frontend architecture (`web/`), Browse screen (large-scale pagination), Transaction screen (Workflow 1), UI design tokens. | 33% |
+| **Team Member 3** | 2024XXXX | Geospatial Leaflet dispatch map (Workflow 3), Window analytics & Materialized View (Workflow 2), Review analytics (Workflow 4), Wireframes & Handover note. | 33% |
+
+---
+
+## 3. Technology Stack & Architectural Justifications
+
+| Layer | Chosen Technology | Justification & Design Decision |
+| :--- | :--- | :--- |
+| **Relational Database** | **PostgreSQL 15+** | Relational integrity for financial ledgers, transactional consistency, PL/pgSQL atomic procedures, row-level locks (`SELECT FOR UPDATE`), audit triggers, and materialized views. |
+| **Document Database** | **MongoDB 7.0+** | High-velocity geospatial coordinates (`2dsphere` index with TTL expiration) and polymorphic catalogs (`MedicalCatalogs`) + unstructured review sentiments. |
+| **Backend API Layer** | **Node.js + Express** | Lightweight, asynchronous non-blocking I/O. Native PostgreSQL connection pooling (`pg`) and official MongoDB driver (`mongodb`). Minimal boilerplate; lets database engines do the heavy analytical lifting. |
+| **Frontend Web App** | **React 18 + Vite** | Instant Hot Module Replacement (HMR), sub-5s production build, component-driven modularity. Zero bloated dependencies. |
+| **Geospatial Mapping** | **Leaflet + OpenStreetMap** | Open-source, zero API keys required, lightweight interactive tiles, smooth 5 km dynamic radius circle rendering and live GPS ping markers. |
+| **Styling & Aesthetics** | **Vanilla CSS + Glassmorphism** | Sleek healthcare dark theme (`#0b1120`, sky blue `#0284c7`, emerald `#10b981`), responsive layouts, zero build configuration overhead from utility frameworks. |
+
+---
+
+## 4. Repository Structure
+
+```text
 CareConnect_FullStack/
 ├── README.md                      # Setup instructions, architecture, contributions, demo link
 ├── docs/
@@ -47,17 +65,22 @@ CareConnect_FullStack/
     │   ├── App.jsx                # Tab navigation & global user switcher
     │   └── index.css              # Custom healthcare design system
     └── package.json
-5. Quick-Start Setup & Execution Guide
-You can either run the steps manually or use the provided Makefile:
+```
 
-make install – Install all backend, frontend, and python dependencies
-make db-init – Initialize both PostgreSQL schema/logic and MongoDB collections/indexes
-make db-seed – Seed mock data (100k+ rows)
-make test – Run the 6 automated integration tests
-make dev-api / make dev-web – Launch the backend and frontend dev servers
-Step 1: PostgreSQL Setup
+---
+
+## 5. Quick-Start Setup & Execution Guide
+
+You can either run the steps manually or use the provided **`Makefile`**:
+* `make install` – Install all backend, frontend, and python dependencies
+* `make db-init` – Initialize both PostgreSQL schema/logic and MongoDB collections/indexes
+* `make db-seed` – Seed mock data (100k+ rows)
+* `make test` – Run the 6 automated integration tests
+* `make dev-api` / `make dev-web` – Launch the backend and frontend dev servers
+
+### Step 1: PostgreSQL Setup
 Ensure PostgreSQL is running locally on port 5432:
-
+```bash
 # 1. Create the database
 createdb -U postgres careconnect
 
@@ -67,13 +90,17 @@ psql -U postgres -d careconnect -f sql/02_indexes.sql
 psql -U postgres -d careconnect -f sql/03_triggers_and_audit.sql
 psql -U postgres -d careconnect -f sql/04_stored_procedures.sql
 psql -U postgres -d careconnect -f sql/05_materialized_views.sql
-Step 2: MongoDB Setup
+```
+
+### Step 2: MongoDB Setup
 Ensure MongoDB is running locally on port 27017 (or use MongoDB Atlas):
-
+```bash
 mongosh "mongodb://localhost:27017/careconnect" --file mongo/01_collections_and_indexes.js
-Step 3: Environment Variables
-Create a root .env file (configured in .gitignore):
+```
 
+### Step 3: Environment Variables
+Create a root `.env` file (configured in `.gitignore`):
+```env
 PG_HOST=localhost
 PG_PORT=5432
 PG_DATABASE=careconnect
@@ -84,7 +111,10 @@ MONGO_URI=mongodb://localhost:27017/careconnect
 MONGO_DB=careconnect
 
 PORT=5000
-Step 4: Seed Mock Data (100,000+ Records)
+```
+
+### Step 4: Seed Mock Data (100,000+ Records)
+```bash
 # Install Python dependencies
 pip install -r data_generation/requirements.txt
 
@@ -96,26 +126,37 @@ python data_generation/mongo_seeder.py
 
 # Refresh the Materialized View initially
 psql -U postgres -d careconnect -c "REFRESH MATERIALIZED VIEW clinic_monthly_discharges;"
-Step 5: Start the Backend API Layer
+```
+
+### Step 5: Start the Backend API Layer
+```bash
 cd api
 npm install
 node server.js
-API Server runs on http://localhost:5000
-Health check: http://localhost:5000/api/health
-Step 6: Start the Frontend Application
-Open a new terminal:
+```
+* API Server runs on **`http://localhost:5000`**
+* Health check: `http://localhost:5000/api/health`
 
+### Step 6: Start the Frontend Application
+Open a new terminal:
+```bash
 cd web
 npm install
 npm run dev
-Open http://localhost:5173 in your browser.
-6. Running Automated Tests
-Run the backend integration test suite verifying health check, server-side pagination, stored procedure execution, trigger firings, partial unique index rejections, $geoNear, and $facet:
+```
+* Open **`http://localhost:5173`** in your browser.
 
+---
+
+## 6. Running Automated Tests
+
+Run the backend integration test suite verifying health check, server-side pagination, stored procedure execution, trigger firings, partial unique index rejections, `$geoNear`, and `$facet`:
+```bash
 cd api
 npm test
-Expected Test Results:
-
+```
+**Expected Test Results**:
+```text
 TAP version 13
 # Subtest: CareConnect Automated Test Suite
     ok 1 - 1. Health check returns healthy and both databases connected
@@ -126,38 +167,51 @@ TAP version 13
     ok 6 - 6. Workflow 4 ($facet) returns rating distribution across all 5 stars and frequent tags
 1..6
 # tests 6 | suites 1 | pass 6 | fail 0
-7. Screen-by-Screen Implementation & Verification Matrix
-Screen	Core Feature & Database Object	User Capabilities & Rubric Requirements
-Screen 1: Browse	patients, clinics, appointments	Server-side pagination (LIMIT 15, OFFSET); search by patient name or UUID; filter clinics by "Accepting Patients"; filter appointments by status; detail inspection drawer modal.
-Screen 2: Transaction (WF1)	Stored procedure book_appointment	Atomically books appointment; displays HSA balance before and after; surfaces business rejections (INSUFFICIENT_FUNDS, ACTIVE_CONSULTATION_EXISTS, CLINIC_CLOSED); displays verified wallet_audit_logs entry proving trg_wallet_audit fired.
-Screen 3: Audit Trail	Trigger ledger wallet_audit_logs	Search any patient; filter by date range; displays chronological transactions, green/red badges for CREDIT/DEBIT, and exact running balances.
-Screen 4: Analytics (WF2)	SQL Window CTE & clinic_monthly_discharges	7-day moving average copay revenue via AVG(revenue) OVER (...); daily clinic leaderboard ranked via DENSE_RANK(); displays materialized view summaries with "Last Refreshed" timestamp and one-click concurrent refresh button.
-Screen 5: Map (WF3)	MongoDB $geoNear on NursePings	Interactive Leaflet map; selectable patient/clinic origin; renders 5 km coverage perimeter circle; sorted proximity nurse list; auto-polls every 4 seconds without page reload; includes "Simulate Live Nurse Ping" button for viva evaluation.
-Screen 6: Reviews (WF4)	MongoDB $facet & MedicalCatalogs	Multi-faceted analytics across 100,000+ reviews: star distribution chart (1★ to 5★), top bedside manner tag cloud via $unwind, and global average; filterable by clinic; polymorphic medical catalogs (specialists & medications).
-Global Controls	Demo Actor Switcher & Lifecycle Transitions	Instant actor switching in top navbar without login; interactive appointment lifecycle buttons (WAITING 
-→
- IN_CONSULTATION 
-→
- DISCHARGED) to demonstrate releasing locks under idx_active_consult.
-8. Database Engine Logic & Performance Evidence
-Atomic Stored Procedure (book_appointment):
+```
 
-Uses SELECT ... FOR UPDATE on patients to lock the patient record against concurrent race conditions.
-Checks that clinic is_accepting_patients = true.
-Checks hsa_balance >= copay_amount; deducts balance if valid.
-AFTER UPDATE trigger trg_wallet_audit fires automatically, writing an immutable audit record to wallet_audit_logs.
-Inserts appointment record. If the patient already has an active appointment, the partial unique index idx_active_consult (WHERE status IN ('WAITING', 'IN_CONSULTATION')) raises a unique violation, automatically aborting the transaction.
-Workflow 2 Index-Only Scan:
+---
 
-Covered by idx_appointments_discharged_analytics (created_at) INCLUDE (clinic_id, copay_amount).
-Query plans prove zero heap fetches (Heap Fetches: 0), executing in ~30 ms across 50,000 rows.
-Workflow 3 Geospatial Query ($geoNear):
+## 7. Screen-by-Screen Implementation & Verification Matrix
 
-Powered by a 2dsphere spatial index on NursePings.location.
-Operates under GEO_NEAR_2DSPHERE execution stage within the 5,000-meter threshold without full collection scanning.
-Temporary pings auto-expire via a 2-hour TTL index (expireAfterSeconds: 7200).
-9. Submission ZIP Packaging Instructions
+| Screen | Core Feature & Database Object | User Capabilities & Rubric Requirements |
+| :--- | :--- | :--- |
+| **Screen 1: Browse** | `patients`, `clinics`, `appointments` | Server-side pagination (`LIMIT 15`, `OFFSET`); search by patient name or UUID; filter clinics by "Accepting Patients"; filter appointments by status; detail inspection drawer modal. |
+| **Screen 2: Transaction (WF1)** | Stored procedure `book_appointment` | Atomically books appointment; displays HSA balance before and after; surfaces business rejections (`INSUFFICIENT_FUNDS`, `ACTIVE_CONSULTATION_EXISTS`, `CLINIC_CLOSED`); displays verified `wallet_audit_logs` entry proving `trg_wallet_audit` fired. |
+| **Screen 3: Audit Trail** | Trigger ledger `wallet_audit_logs` | Search any patient; filter by date range; displays chronological transactions, green/red badges for `CREDIT`/`DEBIT`, and exact running balances. |
+| **Screen 4: Analytics (WF2)** | SQL Window CTE & `clinic_monthly_discharges` | 7-day moving average copay revenue via `AVG(revenue) OVER (...)`; daily clinic leaderboard ranked via `DENSE_RANK()`; displays materialized view summaries with "Last Refreshed" timestamp and one-click concurrent refresh button. |
+| **Screen 5: Map (WF3)** | MongoDB `$geoNear` on `NursePings` | Interactive Leaflet map; selectable patient/clinic origin; renders 5 km coverage perimeter circle; sorted proximity nurse list; auto-polls every 4 seconds without page reload; includes "Simulate Live Nurse Ping" button for viva evaluation. |
+| **Screen 6: Reviews (WF4)** | MongoDB `$facet` & `MedicalCatalogs` | Multi-faceted analytics across 100,000+ reviews: star distribution chart (1★ to 5★), top bedside manner tag cloud via `$unwind`, and global average; filterable by clinic; polymorphic medical catalogs (specialists & medications). |
+| **Global Controls** | Demo Actor Switcher & Lifecycle Transitions | Instant actor switching in top navbar without login; interactive appointment lifecycle buttons (`WAITING` $\rightarrow$ `IN_CONSULTATION` $\rightarrow$ `DISCHARGED`) to demonstrate releasing locks under `idx_active_consult`. |
+
+---
+
+## 8. Database Engine Logic & Performance Evidence
+
+1. **Atomic Stored Procedure (`book_appointment`)**:
+   * Uses `SELECT ... FOR UPDATE` on `patients` to lock the patient record against concurrent race conditions.
+   * Checks that clinic `is_accepting_patients = true`.
+   * Checks `hsa_balance >= copay_amount`; deducts balance if valid.
+   * `AFTER UPDATE` trigger `trg_wallet_audit` fires automatically, writing an immutable audit record to `wallet_audit_logs`.
+   * Inserts appointment record. If the patient already has an active appointment, the partial unique index `idx_active_consult` (`WHERE status IN ('WAITING', 'IN_CONSULTATION')`) raises a unique violation, automatically aborting the transaction.
+
+2. **Workflow 2 Index-Only Scan**:
+   * Covered by `idx_appointments_discharged_analytics (created_at) INCLUDE (clinic_id, copay_amount)`.
+   * Query plans prove zero heap fetches (`Heap Fetches: 0`), executing in ~30 ms across 50,000 rows.
+
+3. **Workflow 3 Geospatial Query (`$geoNear`)**:
+   * Powered by a `2dsphere` spatial index on `NursePings.location`.
+   * Operates under `GEO_NEAR_2DSPHERE` execution stage within the 5,000-meter threshold without full collection scanning.
+   * Temporary pings auto-expire via a 2-hour TTL index (`expireAfterSeconds: 7200`).
+
+---
+
+## 9. Submission ZIP Packaging Instructions
+
 To create the final Moodle submission archive strictly under 20 MB:
-
+```bash
 # From the project root, package excluding dependencies and build artifacts:
-zip -r 19_a1b.zip . -x "**/node_modules/*" -x "**/venv/*" -x "**/__pycache__/*" -x "**/dist/*" -x "**/build/*" -x "**/.git/*" -x "*.sql.dump"
+zip -r <your_team_number>_a1b.zip . -x "**/node_modules/*" -x "**/venv/*" -x "**/__pycache__/*" -x "**/dist/*" -x "**/build/*" -x "**/.git/*" -x "*.sql.dump"
+
+# Verify size (must be strictly < 20 MB):
+ls -lh <your_team_number>_a1b.zip
+```
