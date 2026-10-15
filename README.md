@@ -17,14 +17,11 @@
 
 | Team Member Name | Roll Number | Key Responsibilities & Contributions | Contribution % |
 | :--- | :--- | :--- | :--- |
-| **Aditya** | 2024XXXX | Transaction Booking Engine & Core Frontend Setup (Workflow 1)
-*Focus:* The atomic appointment booking transaction, procedure error handling, balance validation, automated test suite, and core React application entry points. | 25% |
-| **Neelesh Srivastava** | 2024XXXX | System Architecture, Directory Browsing & Provisioning
-*Focus:* Node.js/Express server bootstrap, database connection pooling, large-scale entity browser with server-side pagination, and relational schemas. | 25% |
+| **Aditya** | 2024XXXX | Transaction Booking Engine & Core Frontend Setup (Workflow 1)*Focus:* The atomic appointment booking transaction, procedure error handling, balance validation, automated test suite, and core React application entry points. | 25% |
+| **Neelesh Srivastava** | 2026201031 | System Architecture, Directory Browsing & Provisioning*Focus:* Node.js/Express server bootstrap, database connection pooling, large-scale entity browser with server-side pagination, and relational schemas. | 25% |
 | **Srivatsan Ramesh** | 2026204010 |  Window Analytics & Audit Trail (Workflow 2)
 *Focus:* 7-day moving average revenue curves, daily leaderboards via DENSE_RANK(), concurrent materialized view refreshes, and wallet audit ledger trail. | 25% |
-| **Akhilesh Senapati** | 2026201004 | Geospatial Dispatch & Review Analytics (Workflows 3 & 4)
-*Focus:* Interactive Leaflet map with 5 km proximity radius, live auto-polling telemetry, MongoDB $geoNear and $facet sentiment pipelines, and polymorphic catalogs. | 25% |
+| **Akhilesh Senapati** | 2026201004 | Geospatial Dispatch & Review Analytics (Workflows 3 & 4)*Focus:* Interactive Leaflet map with 5 km proximity radius, live auto-polling telemetry, MongoDB $geoNear and $facet sentiment pipelines, and polymorphic catalogs. | 25% |
 
 ---
 
@@ -209,14 +206,3 @@ TAP version 13
    * Temporary pings auto-expire via a 2-hour TTL index (`expireAfterSeconds: 7200`).
 
 ---
-
-## 9. Submission ZIP Packaging Instructions
-
-To create the final Moodle submission archive strictly under 20 MB:
-```bash
-# From the project root, package excluding dependencies and build artifacts:
-zip -r <your_team_number>_a1b.zip . -x "**/node_modules/*" -x "**/venv/*" -x "**/__pycache__/*" -x "**/dist/*" -x "**/build/*" -x "**/.git/*" -x "*.sql.dump"
-
-# Verify size (must be strictly < 20 MB):
-ls -lh <your_team_number>_a1b.zip
-```
