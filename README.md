@@ -17,7 +17,7 @@
 
 | Team Member Name | Roll Number | Key Responsibilities & Contributions | Contribution % |
 | :--- | :--- | :--- | :--- |
-| **Aditya** | 2024XXXX | Transaction Booking Engine & Core Frontend Setup (Workflow 1)*Focus:* The atomic appointment booking transaction, procedure error handling, balance validation, automated test suite, and core React application entry points. | 25% |
+| **Aditya** | 2026204001 | Transaction Booking Engine & Core Frontend Setup (Workflow 1)*Focus:* The atomic appointment booking transaction, procedure error handling, balance validation, automated test suite, and core React application entry points. | 25% |
 | **Neelesh Srivastava** | 2026201031 | System Architecture, Directory Browsing & Provisioning*Focus:* Node.js/Express server bootstrap, database connection pooling, large-scale entity browser with server-side pagination, and relational schemas. | 25% |
 | **Srivatsan Ramesh** | 2026204010 |  Window Analytics & Audit Trail (Workflow 2)*Focus:* 7-day moving average revenue curves, daily leaderboards via DENSE_RANK(), concurrent materialized view refreshes, and wallet audit ledger trail. | 25% |
 | **Akhilesh Senapati** | 2026201004 | Geospatial Dispatch & Review Analytics (Workflows 3 & 4)*Focus:* Interactive Leaflet map with 5 km proximity radius, live auto-polling telemetry, MongoDB $geoNear and $facet sentiment pipelines, and polymorphic catalogs. | 25% |
