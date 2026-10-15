@@ -1,346 +1,163 @@
-# GITHUB URL
-```text
-https://github.com/Mihirbuddy/ssd_project/
-```
-# LAST COMMIT HASH
-```text
-abc
-```
+CareConnect – On-Demand Telemedicine Platform
+Assignment 2 – Software System Development (SSD CS6.302)
+Project 4: CareConnect (Hybrid Relational & Document Store Telemedicine System)
 
-# CareConnect – On-Demand Telemedicine
+1. Repository & Submission Metadata
+Forked / Development Repository: https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git
+Inherited Repository: https://github.com/Mihirbuddy/ssd_project.git (Inherited Commit: 7d9ff89)
+Final Submission Commit Hash: 71ac8ec (Update to latest git rev before packaging)
+Walkthrough Demo Video (≤ 5 minutes): YouTube / Google Drive Demo Link Placeholder
+2. Team Contribution Table
+Team Member Name	Roll Number	Key Responsibilities & Contributions	Contribution %
+Neelesh Srivastava	2024XXXX	Backend API layer (api/), stored procedure integration, $geoNear parameterization, database lifecycle fixes, automated test suite (booking.test.js).	34%
+Team Member 2	2024XXXX	Frontend architecture (web/), Browse screen (large-scale pagination), Transaction screen (Workflow 1), UI design tokens.	33%
+Team Member 3	2024XXXX	Geospatial Leaflet dispatch map (Workflow 3), Window analytics & Materialized View (Workflow 2), Review analytics (Workflow 4), Wireframes & Handover note.	33%
+3. Technology Stack & Architectural Justifications
+Layer	Chosen Technology	Justification & Design Decision
+Relational Database	PostgreSQL 15+	Relational integrity for financial ledgers, transactional consistency, PL/pgSQL atomic procedures, row-level locks (SELECT FOR UPDATE), audit triggers, and materialized views.
+Document Database	MongoDB 7.0+	High-velocity geospatial coordinates (2dsphere index with TTL expiration) and polymorphic catalogs (MedicalCatalogs) + unstructured review sentiments.
+Backend API Layer	Node.js + Express	Lightweight, asynchronous non-blocking I/O. Native PostgreSQL connection pooling (pg) and official MongoDB driver (mongodb). Minimal boilerplate; lets database engines do the heavy analytical lifting.
+Frontend Web App	React 18 + Vite	Instant Hot Module Replacement (HMR), sub-5s production build, component-driven modularity. Zero bloated dependencies.
+Geospatial Mapping	Leaflet + OpenStreetMap	Open-source, zero API keys required, lightweight interactive tiles, smooth 5 km dynamic radius circle rendering and live GPS ping markers.
+Styling & Aesthetics	Vanilla CSS + Glassmorphism	Sleek healthcare dark theme (#0b1120, sky blue #0284c7, emerald #10b981), responsive layouts, zero build configuration overhead from utility frameworks.
+4. Repository Structure
+CareConnect_FullStack/
+├── README.md                      # Setup instructions, architecture, contributions, demo link
+├── docs/
+│   ├── handover_note.md           # ~1-page reflection on inherited codebase (what worked, fixes made)
+│   ├── api_endpoints.md           # Specification of all REST API endpoints
+│   ├── mongo_schema_map.json      # MongoDB collections and index definitions
+│   ├── relational_erd.png         # PostgreSQL relational schema ER diagram
+│   └── design/
+│       ├── user_personas_and_flows.md # User personas (Patient, Clinic Director, Dispatcher)
+│       └── wireframes.md              # Layout blueprints for all 6 screens
+├── sql/                           # PostgreSQL DDL, procedures, triggers, indexes, views
+├── mongo/                         # MongoDB collection schemas, indexes, and queries
+├── data_generation/               # Python seeders for PostgreSQL & MongoDB (100k+ rows)
+├── performance/                   # Performance evidence (EXPLAIN ANALYZE & MongoDB stats)
+├── api/                           # Node.js/Express server layer
+│   ├── db/                        # PostgreSQL pool & MongoDB client connections
+│   ├── routes/                    # Modular REST route handlers
+│   ├── tests/                     # Automated test suite (6 passing integration tests)
+│   └── server.js                  # Express application entrypoint
+├── Makefile                       # Orchestration commands (make install, make test, etc.)
+└── web/                           # Vite + React web frontend
+    ├── src/
+    │   ├── components/            # 6 Workflow screens & searchable selectors
+    │   ├── App.jsx                # Tab navigation & global user switcher
+    │   └── index.css              # Custom healthcare design system
+    └── package.json
+5. Quick-Start Setup & Execution Guide
+You can either run the steps manually or use the provided Makefile:
 
-CareConnect is a database-focused telemedicine project built with PostgreSQL and MongoDB.
+make install – Install all backend, frontend, and python dependencies
+make db-init – Initialize both PostgreSQL schema/logic and MongoDB collections/indexes
+make db-seed – Seed mock data (100k+ rows)
+make test – Run the 6 automated integration tests
+make dev-api / make dev-web – Launch the backend and frontend dev servers
+Step 1: PostgreSQL Setup
+Ensure PostgreSQL is running locally on port 5432:
 
-- **PostgreSQL** stores patients, clinics, appointments, wallet balances, and audit records.
-- **MongoDB** stores medical catalogs, patient reviews, and temporary nurse-location pings.
+# 1. Create the database
+createdb -U postgres careconnect
 
-## Project structure
+# 2. Apply all SQL DDL and logic scripts in strict order:
+psql -U postgres -d careconnect -f sql/01_schema_ddl.sql
+psql -U postgres -d careconnect -f sql/02_indexes.sql
+psql -U postgres -d careconnect -f sql/03_triggers_and_audit.sql
+psql -U postgres -d careconnect -f sql/04_stored_procedures.sql
+psql -U postgres -d careconnect -f sql/05_materialized_views.sql
+Step 2: MongoDB Setup
+Ensure MongoDB is running locally on port 27017 (or use MongoDB Atlas):
 
-```text
-docs/
-  relational_erd.png
-  mongo_schema_map.json
+mongosh "mongodb://localhost:27017/careconnect" --file mongo/01_collections_and_indexes.js
+Step 3: Environment Variables
+Create a root .env file (configured in .gitignore):
 
-sql/
-  01_schema_ddl.sql
-  02_indexes.sql
-  03_triggers_and_audit.sql
-  04_stored_procedures.sql
-  05_materialized_views.sql
-  06_window_analytics.sql
+PG_HOST=localhost
+PG_PORT=5432
+PG_DATABASE=careconnect
+PG_USER=postgres
+PG_PASSWORD=7786
 
-mongo/
-  01_collections_and_indexes.js
-  02_workflow3_geonear.js
-  03_workflow4_facet.js
-
-data_generation/
-  postgres_seeder.py
-  mongo_seeder.py
-  requirements.txt
-
-performance/
-  generate_execution_stats.js
-  mongo_execution_stats.json
-
-README.md
-```
-
-## 1. Python setup
-
-Run from the project root:
-
-```bash
-python3 -m venv ssd
-source ssd/bin/activate
-python -m pip install -r data_generation/requirements.txt
-```
-
-For later sessions, activate the existing environment with:
-
-```bash
-source ssd/bin/activate
-```
-
-Use `deactivate` when finished. Keep `ssd/`, `.env`, and `__pycache__/` in `.gitignore`.
-
-## 2. Connection configuration
-
-Create `.env` in the project root:
-
-```env
-MONGO_URI=mongodb+srv://USERNAME:PASSWORD@YOUR_CLUSTER.mongodb.net/?appName=Cluster0
+MONGO_URI=mongodb://localhost:27017/careconnect
 MONGO_DB=careconnect
-```
 
-Do not commit this file. If the password contains reserved URI characters such as `@`, `/`, `:` or `#`, URL-encode it.
+PORT=5000
+Step 4: Seed Mock Data (100,000+ Records)
+# Install Python dependencies
+pip install -r data_generation/requirements.txt
 
-The PostgreSQL seeder receives its connection string through the `--dsn` argument shown below.
+# Seed PostgreSQL (2,000 patients, 25 clinics, 50,000 appointments, 100,100 audit rows)
+python data_generation/postgres_seeder.py --dsn "postgresql://postgres:7786@localhost:5432/careconnect" --truncate
 
-## 3. Create the PostgreSQL database
-
-Create the database if it does not already exist:
-
-```bash
-createdb careconnect
-```
-
-Apply the SQL files in order:
-
-```bash
-psql -d careconnect -f sql/01_schema_ddl.sql
-psql -d careconnect -f sql/02_indexes.sql
-psql -d careconnect -f sql/03_triggers_and_audit.sql
-psql -d careconnect -f sql/04_stored_procedures.sql
-psql -d careconnect -f sql/05_materialized_views.sql
-```
-
-## 4. Create the MongoDB collections
-
-For MongoDB Atlas:
-
-```bash
-mongosh "mongodb+srv://YOUR_CLUSTER.mongodb.net/careconnect?appName=Cluster0" \
-  --apiVersion 1 \
-  --username USERNAME \
-  --file mongo/01_collections_and_indexes.js
-```
-
-This creates `MedicalCatalogs`, `PatientReviews`, and `NursePings`, together with their validators and indexes. Run it once on a fresh database; running it again may produce `NamespaceExists`.
-
-## 5. Seed the databases
-
-Seed PostgreSQL first:
-
-```bash
-python data_generation/postgres_seeder.py \
-  --dsn "postgresql://USER:PASSWORD@localhost:5432/careconnect"
-```
-
-Then seed MongoDB using the connection from `.env`:
-
-```bash
+# Seed MongoDB (4 catalogs, 100,000 patient reviews, 500,000 nurse pings)
 python data_generation/mongo_seeder.py
-```
 
-After seeding, refresh the materialized view and run the window-analysis query:
+# Refresh the Materialized View initially
+psql -U postgres -d careconnect -c "REFRESH MATERIALIZED VIEW clinic_monthly_discharges;"
+Step 5: Start the Backend API Layer
+cd api
+npm install
+node server.js
+API Server runs on http://localhost:5000
+Health check: http://localhost:5000/api/health
+Step 6: Start the Frontend Application
+Open a new terminal:
 
-```bash
-psql -d careconnect \
-  -c "REFRESH MATERIALIZED VIEW CONCURRENTLY clinic_monthly_discharges;"
+cd web
+npm install
+npm run dev
+Open http://localhost:5173 in your browser.
+6. Running Automated Tests
+Run the backend integration test suite verifying health check, server-side pagination, stored procedure execution, trigger firings, partial unique index rejections, $geoNear, and $facet:
 
-psql -d careconnect -f sql/06_window_analytics.sql
-```
+cd api
+npm test
+Expected Test Results:
 
-## 6. Run the MongoDB workflows
+TAP version 13
+# Subtest: CareConnect Automated Test Suite
+    ok 1 - 1. Health check returns healthy and both databases connected
+    ok 2 - 2. Paginated patients browsing respects limit and returns metadata
+    ok 3 - 3. Booking transaction rejects when HSA balance is insufficient
+    ok 4 - 4. Booking transaction rejects when active appointment conflict exists (partial unique index)
+    ok 5 - 5. Workflow 3 ($geoNear) returns active mobile nurses within 5 km radius
+    ok 6 - 6. Workflow 4 ($facet) returns rating distribution across all 5 stars and frequent tags
+1..6
+# tests 6 | suites 1 | pass 6 | fail 0
+7. Screen-by-Screen Implementation & Verification Matrix
+Screen	Core Feature & Database Object	User Capabilities & Rubric Requirements
+Screen 1: Browse	patients, clinics, appointments	Server-side pagination (LIMIT 15, OFFSET); search by patient name or UUID; filter clinics by "Accepting Patients"; filter appointments by status; detail inspection drawer modal.
+Screen 2: Transaction (WF1)	Stored procedure book_appointment	Atomically books appointment; displays HSA balance before and after; surfaces business rejections (INSUFFICIENT_FUNDS, ACTIVE_CONSULTATION_EXISTS, CLINIC_CLOSED); displays verified wallet_audit_logs entry proving trg_wallet_audit fired.
+Screen 3: Audit Trail	Trigger ledger wallet_audit_logs	Search any patient; filter by date range; displays chronological transactions, green/red badges for CREDIT/DEBIT, and exact running balances.
+Screen 4: Analytics (WF2)	SQL Window CTE & clinic_monthly_discharges	7-day moving average copay revenue via AVG(revenue) OVER (...); daily clinic leaderboard ranked via DENSE_RANK(); displays materialized view summaries with "Last Refreshed" timestamp and one-click concurrent refresh button.
+Screen 5: Map (WF3)	MongoDB $geoNear on NursePings	Interactive Leaflet map; selectable patient/clinic origin; renders 5 km coverage perimeter circle; sorted proximity nurse list; auto-polls every 4 seconds without page reload; includes "Simulate Live Nurse Ping" button for viva evaluation.
+Screen 6: Reviews (WF4)	MongoDB $facet & MedicalCatalogs	Multi-faceted analytics across 100,000+ reviews: star distribution chart (1★ to 5★), top bedside manner tag cloud via $unwind, and global average; filterable by clinic; polymorphic medical catalogs (specialists & medications).
+Global Controls	Demo Actor Switcher & Lifecycle Transitions	Instant actor switching in top navbar without login; interactive appointment lifecycle buttons (WAITING 
+→
+ IN_CONSULTATION 
+→
+ DISCHARGED) to demonstrate releasing locks under idx_active_consult.
+8. Database Engine Logic & Performance Evidence
+Atomic Stored Procedure (book_appointment):
 
-Nearest active nurse:
+Uses SELECT ... FOR UPDATE on patients to lock the patient record against concurrent race conditions.
+Checks that clinic is_accepting_patients = true.
+Checks hsa_balance >= copay_amount; deducts balance if valid.
+AFTER UPDATE trigger trg_wallet_audit fires automatically, writing an immutable audit record to wallet_audit_logs.
+Inserts appointment record. If the patient already has an active appointment, the partial unique index idx_active_consult (WHERE status IN ('WAITING', 'IN_CONSULTATION')) raises a unique violation, automatically aborting the transaction.
+Workflow 2 Index-Only Scan:
 
-```bash
-mongosh "mongodb+srv://YOUR_CLUSTER.mongodb.net/careconnect?appName=Cluster0" \
-  --apiVersion 1 \
-  --username USERNAME \
-  --file mongo/02_workflow3_geonear.js
-```
+Covered by idx_appointments_discharged_analytics (created_at) INCLUDE (clinic_id, copay_amount).
+Query plans prove zero heap fetches (Heap Fetches: 0), executing in ~30 ms across 50,000 rows.
+Workflow 3 Geospatial Query ($geoNear):
 
-Review analytics:
+Powered by a 2dsphere spatial index on NursePings.location.
+Operates under GEO_NEAR_2DSPHERE execution stage within the 5,000-meter threshold without full collection scanning.
+Temporary pings auto-expire via a 2-hour TTL index (expireAfterSeconds: 7200).
+9. Submission ZIP Packaging Instructions
+To create the final Moodle submission archive strictly under 20 MB:
 
-```bash
-mongosh "mongodb+srv://YOUR_CLUSTER.mongodb.net/careconnect?appName=Cluster0" \
-  --apiVersion 1 \
-  --username USERNAME \
-  --file mongo/03_workflow4_facet.js
-```
-
-To save a workflow's output, append a redirect such as:
-
-```bash
---file mongo/02_workflow3_geonear.js > mongo/output1.txt
-```
-
-### Running from inside `mongosh`
-
-After connecting to Atlas, scripts can also be loaded interactively:
-
-```javascript
-load("mongo/01_collections_and_indexes.js")
-load("mongo/02_workflow3_geonear.js")
-load("mongo/03_workflow4_facet.js")
-```
-
-Useful checks:
-
-```javascript
-show collections
-db.MedicalCatalogs.countDocuments()
-db.PatientReviews.countDocuments()
-db.NursePings.countDocuments()
-db.PatientReviews.getIndexes()
-db.NursePings.getIndexes()
-```
-
-Python files must be run from the machine terminal. MongoDB JavaScript files can be run with `mongosh --file` or with `load()` inside `mongosh`.
-
-## 7. Performance evidence
-
-## PostgreSQL Performance Analysis
-Workflow 2 achieves an Index Only Scan by utilizing the covering index idx_appointments_discharged_analytics. By filtering the created_at timestamp directly at the index level and including the copay_amount payload, the query executes with zero heap fetches and avoids a costly sequential scan on the appointments table.
-
-
-**Workflow 2: Postgres Performance Proof (7-Day Moving Average)**
-
-The query successfully avoids sequential scans by utilizing a covering index (`idx_appointments_discharged_analytics`).
-
-```text
-Aggregate  (cost=7242.14..7242.15 rows=1 width=32) (actual time=30.302..30.304 rows=1.00 loops=1)
-  Output: json_agg(sub.*)
-  Buffers: shared hit=209
-  ->  Subquery Scan on sub  (cost=5441.58..7186.80 rows=22134 width=76) (actual time=28.888..29.461 rows=775.00 loops=1)
-        Output: sub.*
-        Buffers: shared hit=209
-        ->  Incremental Sort  (cost=5441.58..6965.46 rows=22134 width=124) (actual time=28.863..29.298 rows=775.00 loops=1)
-              Output: moving_avg.clinic_id, moving_avg.day, moving_avg.revenue, (round(moving_avg.revenue_7day_avg, 2)), (dense_rank() OVER w1), moving_avg.revenue_7day_avg
-              Sort Key: moving_avg.day, (dense_rank() OVER w1)
-              Presorted Key: moving_avg.day
-              Full-sort Groups: 16  Sort Method: quicksort  Average Memory: 28kB  Peak Memory: 28kB
-              Buffers: shared hit=209
-              ->  WindowAgg  (cost=5435.33..5933.32 rows=22134 width=124) (actual time=28.801..29.120 rows=775.00 loops=1)
-                    Output: moving_avg.clinic_id, moving_avg.day, moving_avg.revenue, round(moving_avg.revenue_7day_avg, 2), dense_rank() OVER w1, moving_avg.revenue_7day_avg
-                    Window: w1 AS (PARTITION BY moving_avg.day ORDER BY moving_avg.revenue_7day_avg ROWS UNBOUNDED PRECEDING)
-                    Storage: Memory  Maximum Storage: 17kB
-                    Buffers: shared hit=209
-                    ->  Sort  (cost=5435.31..5490.64 rows=22134 width=84) (actual time=28.790..28.813 rows=775.00 loops=1)
-                          Output: moving_avg.day, moving_avg.revenue_7day_avg, moving_avg.clinic_id, moving_avg.revenue
-                          Sort Key: moving_avg.day, moving_avg.revenue_7day_avg DESC
-                          Sort Method: quicksort  Memory: 67kB
-                          Buffers: shared hit=209
-                          ->  Subquery Scan on moving_avg  (cost=3395.24..3837.90 rows=22134 width=84) (actual time=28.009..28.480 rows=775.00 loops=1)
-                                Output: moving_avg.day, moving_avg.revenue_7day_avg, moving_avg.clinic_id, moving_avg.revenue
-                                Buffers: shared hit=209
-                                ->  WindowAgg  (cost=3395.24..3837.90 rows=22134 width=84) (actual time=28.008..28.433 rows=775.00 loops=1)
-                                      Output: appointments.clinic_id, ((appointments.created_at)::date), (sum(appointments.copay_amount)), avg((sum(appointments.copay_amount))) OVER w1
-                                      Window: w1 AS (PARTITION BY appointments.clinic_id ORDER BY ((appointments.created_at)::date) ROWS BETWEEN '6'::bigint PRECEDING AND CURRENT ROW)
-                                      Storage: Memory  Maximum Storage: 17kB
-                                      Buffers: shared hit=209
-                                      ->  Sort  (cost=3395.22..3450.56 rows=22134 width=52) (actual time=27.600..27.623 rows=775.00 loops=1)
-                                            Output: appointments.clinic_id, ((appointments.created_at)::date), (sum(appointments.copay_amount))
-                                            Sort Key: appointments.clinic_id, ((appointments.created_at)::date)
-                                            Sort Method: quicksort  Memory: 61kB
-                                            Buffers: shared hit=209
-                                            ->  HashAggregate  (cost=1465.80..1797.81 rows=22134 width=52) (actual time=26.356..26.986 rows=775.00 loops=1)
-                                                  Output: appointments.clinic_id, ((appointments.created_at)::date), sum(appointments.copay_amount)
-                                                  Group Key: appointments.clinic_id, (appointments.created_at)::date
-                                                  Batches: 1  Memory Usage: 849kB
-                                                  Buffers: shared hit=209
-                                                  ->  Index Only Scan using idx_appointments_discharged_analytics on public.appointments  (cost=0.29..1277.76 rows=25073 width=26) (actual time=0.450..15.787 rows=25397.00 loops=1)
-                                                        Output: appointments.clinic_id, (appointments.created_at)::date, appointments.copay_amount
-                                                        Index Cond: (appointments.created_at >= (CURRENT_DATE - '30 days'::interval))
-                                                        Heap Fetches: 0
-                                                        Index Searches: 1
-                                                        Buffers: shared hit=209
-Planning:
-  Buffers: shared hit=151
-Planning Time: 2.978 ms
-Execution Time: 30.608 ms
-
-
-Generate PostgreSQL execution statistics:
-```bash
-   psql -U YOUR_USERNAME -d careconnect -c "EXPLAIN (ANALYZE, BUFFERS, VERBOSE, FORMAT JSON) WITH daily_revenue AS (SELECT clinic_id, created_at::date AS day, SUM(copay_amount) AS revenue FROM appointments WHERE created_at >= (CURRENT_DATE - INTERVAL '30 days') GROUP BY clinic_id, created_at::date), moving_avg AS (SELECT clinic_id, day, revenue, AVG(revenue) OVER (PARTITION BY clinic_id ORDER BY day ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS revenue_7day_avg FROM daily_revenue) SELECT clinic_id, day, revenue, ROUND(revenue_7day_avg, 2) AS revenue_7day_avg, DENSE_RANK() OVER (PARTITION BY day ORDER BY revenue_7day_avg DESC) AS clinic_rank_that_day FROM moving_avg ORDER BY day, clinic_rank_that_day;" > performance/postgres_explain_analyzes_stats.txt
-```
-
-## MongoDB Performance Analysis
-Generate MongoDB execution statistics:
-
-```bash
-mongosh "mongodb+srv://YOUR_CLUSTER.mongodb.net/careconnect?appName=Cluster0" \
-  --apiVersion 1 \
-  --username USERNAME \
-  --quiet \
-  --file performance/generate_execution_stats.js \
-  > performance/mongo_execution_stats.json
-```
-
-The mongo_execution_stats.json file contains execution statistics for both MongoDB workflows. Workflow 3 uses the location_2dsphere index through the GEO_NEAR_2DSPHERE stage, allowing MongoDB to efficiently find the nearest nurse without scanning the entire collection. Workflow 4 uses a COLLSCAN because its $facet pipeline requires every patient review to calculate rating counts, frequent tags, and the overall average. Metrics such as executionTimeMillis, totalKeysExamined, and totalDocsExamined indicate the cost and efficiency of each query.
-Validate the generated JSON:
-
-```bash
-python -m json.tool performance/mongo_execution_stats.json > /dev/null
-```
-
-See `performance/README.md` for the PostgreSQL `EXPLAIN` and MongoDB `explain("executionStats")` checks.
-
-performance proof
-
-```bash
-(ssd) (base) mihirpradhan@Mihirs-MacBook-Air database_design % grep -E '"stage"|"indexName"|"executionTimeMillis"|"totalKeysExamined"|"totalDocsExamined"' \
-  performance/mongo_execution_stats.json
-              "stage": "FETCH",
-                "stage": "GEO_NEAR_2DSPHERE",
-                "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-            "executionTimeMillis": {
-            "totalKeysExamined": {
-            "totalDocsExamined": {
-              "stage": "FETCH",
-                "stage": "GEO_NEAR_2DSPHERE",
-                "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-                    "stage": "FETCH",
-                      "stage": "IXSCAN",
-                      "indexName": "location_2dsphere",
-              "stage": "PROJECTION_SIMPLE",
-                "stage": "COLLSCAN",
-            "executionTimeMillis": {
-            "totalKeysExamined": {
-            "totalDocsExamined": {
-              "stage": "PROJECTION_SIMPLE",
-                "stage": "COLLSCAN",
-(ssd) (base) mihirpradhan@Mihirs-MacBook-Air database_design % 
-```
-
-## Database relationship
-
-`PatientReviews.patientId` and `PatientReviews.clinicId` are logical references to PostgreSQL patients and clinics. MongoDB cannot enforce foreign keys across databases, so the application or seeding process must ensure that these IDs exist in PostgreSQL. Patient and clinic master records are not duplicated in MongoDB.
-
-## Local MongoDB
-
-To use a local MongoDB server, change `.env` to:
-
-```env
-MONGO_URI=mongodb://localhost:27017
-MONGO_DB=careconnect
-```
-
-Then use this connection for MongoDB shell commands:
-
-```bash
-mongosh "mongodb://localhost:27017/careconnect"
-```
-
-## Notes
-
-- `book_appointment` performs balance deduction, appointment creation, and auditing in one transaction.
-- `idx_active_consult` applies only to `WAITING` and `IN CONSULTATION` appointments.
-- `REFRESH MATERIALIZED VIEW CONCURRENTLY` requires the unique index created for the view.
-- GeoJSON coordinates use `[longitude, latitude]` order.
-- `NursePings.createdAt` is stored as a BSON `Date`; its TTL index removes records after two hours.
+# From the project root, package excluding dependencies and build artifacts:
+zip -r 19_a1b.zip . -x "**/node_modules/*" -x "**/venv/*" -x "**/__pycache__/*" -x "**/dist/*" -x "**/build/*" -x "**/.git/*" -x "*.sql.dump"
