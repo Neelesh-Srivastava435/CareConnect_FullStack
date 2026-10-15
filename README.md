@@ -8,7 +8,7 @@
 
 * **Forked / Development Repository**: [`https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git`](https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git)
 * **Inherited Repository**: [`https://github.com/Mihirbuddy/ssd_project.git`](https://github.com/Mihirbuddy/ssd_project.git) (Inherited Commit: `7d9ff89`)
-* **Final Submission Commit Hash**: `6e525ae` *(Update to latest git rev before packaging)*
+* **Final Submission Commit Hash**: `e8b9320` *(Update to latest git rev before packaging)*
 * **Walkthrough Demo Video (≤ 5 minutes)**: [YouTube / Google Drive Demo Link Placeholder](https://youtu.be/placeholder)
 
 ---
