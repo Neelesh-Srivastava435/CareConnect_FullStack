@@ -9,7 +9,7 @@
 * **Forked / Development Repository**: [`https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git`](https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git)
 * **Inherited Repository**: [`https://github.com/Mihirbuddy/ssd_project.git`](https://github.com/Mihirbuddy/ssd_project.git) (Inherited Commit: `7d9ff89`)
 * **Final Submission Commit Hash**: `71ac8ec` *(Update to latest git rev before packaging)*
-* **Walkthrough Demo Video (≤ 5 minutes)**: [DEMO VIDEO](https://iiithydstudents-my.sharepoint.com/personal/srivatsan_ramesh_students_iiit_ac_in/_layouts/15/stream.aspx?id=%2Fpersonal%2Fsrivatsan%5Framesh%5Fstudents%5Fiiit%5Fac%5Fin%2FDocuments%2FCareConnect%5FDemo%2Emov&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&ga=1&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Ee2ba23e3%2Ddd1a%2D4615%2D9606%2D7f0bc93293a2)
+* **Walkthrough Demo Video (≤ 5 minutes)**: [YouTube / Google Drive Demo Link Placeholder](https://youtu.be/placeholder)
 
 ---
 
@@ -17,10 +17,9 @@
 
 | Team Member Name | Roll Number | Key Responsibilities & Contributions | Contribution % |
 | :--- | :--- | :--- | :--- |
-| **Aditya** | 2026204001 | Transaction Booking Engine & Core Frontend Setup (Workflow 1)*Focus:* The atomic appointment booking transaction, procedure error handling, balance validation, automated test suite, and core React application entry points. | 25% |
-| **Neelesh Srivastava** | 2026201031 | System Architecture, Directory Browsing & Provisioning*Focus:* Node.js/Express server bootstrap, database connection pooling, large-scale entity browser with server-side pagination, and relational schemas. | 25% |
-| **Srivatsan Ramesh** | 2026204010 |  Window Analytics & Audit Trail (Workflow 2)*Focus:* 7-day moving average revenue curves, daily leaderboards via DENSE_RANK(), concurrent materialized view refreshes, and wallet audit ledger trail. | 25% |
-| **Akhilesh Senapati** | 2026201004 | Geospatial Dispatch & Review Analytics (Workflows 3 & 4)*Focus:* Interactive Leaflet map with 5 km proximity radius, live auto-polling telemetry, MongoDB $geoNear and $facet sentiment pipelines, and polymorphic catalogs. | 25% |
+| **Neelesh Srivastava** | 2024XXXX | Backend API layer (`api/`), stored procedure integration, `$geoNear` parameterization, database lifecycle fixes, automated test suite (`booking.test.js`). | 34% |
+| **Team Member 2** | 2024XXXX | Frontend architecture (`web/`), Browse screen (large-scale pagination), Transaction screen (Workflow 1), UI design tokens. | 33% |
+| **Team Member 3** | 2024XXXX | Geospatial Leaflet dispatch map (Workflow 3), Window analytics & Materialized View (Workflow 2), Review analytics (Workflow 4), Wireframes & Handover note. | 33% |
 
 ---
 
@@ -205,3 +204,14 @@ TAP version 13
    * Temporary pings auto-expire via a 2-hour TTL index (`expireAfterSeconds: 7200`).
 
 ---
+
+## 9. Submission ZIP Packaging Instructions
+
+To create the final Moodle submission archive strictly under 20 MB:
+```bash
+# From the project root, package excluding dependencies and build artifacts:
+zip -r <your_team_number>_a1b.zip . -x "**/node_modules/*" -x "**/venv/*" -x "**/__pycache__/*" -x "**/dist/*" -x "**/build/*" -x "**/.git/*" -x "*.sql.dump"
+
+# Verify size (must be strictly < 20 MB):
+ls -lh <your_team_number>_a1b.zip
+```

@@ -59,6 +59,8 @@ router.get('/', async (req, res, next) => {
     const countText = `
       SELECT count(*) 
       FROM appointments a
+      JOIN patients p ON p.id = a.patient_id
+      JOIN clinics c ON c.id = a.clinic_id
       ${whereClause}
     `;
 
