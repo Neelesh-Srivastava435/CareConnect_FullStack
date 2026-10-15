@@ -136,6 +136,13 @@ describe('CareConnect Automated Test Suite', () => {
   });
 
   test('5. Workflow 3 ($geoNear) returns active mobile nurses within 5 km radius', async () => {
+    // Ensure at least one active nurse ping exists even if 2-hour TTL expired
+    await makeRequest('/api/nurses/simulate-ping', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: { lat: 17.3850, lng: 78.4867, nurseId: 'N_TEST_101' },
+    });
+
     const res = await makeRequest(
       '/api/nurses/nearest?lat=17.3850&lng=78.4867&maxDistance=5000'
     );

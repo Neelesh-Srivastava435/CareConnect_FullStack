@@ -8,7 +8,7 @@
 
 * **Forked / Development Repository**: [`https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git`](https://github.com/Neelesh-Srivastava435/CareConnect_FullStack.git)
 * **Inherited Repository**: [`https://github.com/Mihirbuddy/ssd_project.git`](https://github.com/Mihirbuddy/ssd_project.git) (Inherited Commit: `7d9ff89`)
-* **Final Submission Commit Hash**: `71ac8ec` *(Update to latest git rev before packaging)*
+* **Final Submission Commit Hash**: `6e525ae` *(Update to latest git rev before packaging)*
 * **Walkthrough Demo Video (≤ 5 minutes)**: [YouTube / Google Drive Demo Link Placeholder](https://youtu.be/placeholder)
 
 ---
@@ -17,9 +17,10 @@
 
 | Team Member Name | Roll Number | Key Responsibilities & Contributions | Contribution % |
 | :--- | :--- | :--- | :--- |
-| **Neelesh Srivastava** | 2024XXXX | Backend API layer (`api/`), stored procedure integration, `$geoNear` parameterization, database lifecycle fixes, automated test suite (`booking.test.js`). | 34% |
-| **Team Member 2** | 2024XXXX | Frontend architecture (`web/`), Browse screen (large-scale pagination), Transaction screen (Workflow 1), UI design tokens. | 33% |
-| **Team Member 3** | 2024XXXX | Geospatial Leaflet dispatch map (Workflow 3), Window analytics & Materialized View (Workflow 2), Review analytics (Workflow 4), Wireframes & Handover note. | 33% |
+| **Team Member 1** | 2024XXXX | Transaction Booking Engine (Workflow 1), stored procedure integration, balance validation, booking form UI (`TransactionScreen.jsx`, `SearchablePatientSelect.jsx`, `SearchableClinicSelect.jsx`), automated integration tests (`booking.test.js`), `docs/api_endpoints.md`. | 25% |
+| **Team Member 2** | 2024XXXX | System Architecture & Directory, Express server bootstrap, DB connection pooling (`postgres.js`, `mongo.js`), large-scale entity browser with server-side pagination (`BrowseScreen.jsx`), navigation shell (`Navbar.jsx`), `Makefile`. | 25% |
+| **Team Member 3** | 2024XXXX | Window Analytics & Audit Trail (Workflow 2), 7-day moving avg revenue curves, daily `DENSE_RANK()` leaderboards, concurrent materialized view refresh (`clinic_monthly_discharges`), wallet audit log UI (`AuditScreen.jsx`), `docs/handover_note.md`. | 25% |
+| **Team Member 4** | 2024XXXX | Geospatial Dispatch & Review Analytics (Workflows 3 & 4), Leaflet dispatch map (`MapScreen.jsx`), 5 km radius circle, live auto-polling telemetry, MongoDB `$geoNear` and `$facet` pipelines, review sentiment dashboard (`ReviewsScreen.jsx`), `VIVA_QUESTIONS_AND_ANSWERS.md`. | 25% |
 
 ---
 
