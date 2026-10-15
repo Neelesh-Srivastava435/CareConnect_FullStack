@@ -12,17 +12,19 @@ from pymongo import MongoClient
 # --------------------------------------------------
 load_dotenv()
 
-MONGODB_URI = os.getenv("MONGODB_URI")
+MONGODB_URI = os.getenv("MONGODB_URI") or os.getenv("MONGO_URI")
 
 if not MONGODB_URI:
-    raise ValueError("MONGODB_URI not found in .env")
+    raise ValueError("MONGODB_URI or MONGO_URI not found in .env")
 
-client = MongoClient(
-    MONGODB_URI,
-    tlsCAFile=certifi.where()
-)
+client_kwargs = {}
+if "mongodb+srv://" in MONGODB_URI or "ssl=true" in MONGODB_URI.lower() or "tls=true" in MONGODB_URI.lower():
+    client_kwargs["tlsCAFile"] = certifi.where()
+
+client = MongoClient(MONGODB_URI, **client_kwargs)
 
 db = client["careconnect"]
+
 
 
 # --------------------------------------------------
